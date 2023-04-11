@@ -9,13 +9,12 @@ class hrExperience(models.Model):
     date_from = fields.Date("Date From", required='1')
     education = fields.Boolean("Is Educated")
     college = fields.Char("The College/Company", help="from where you gained this experience")
-    state = fields.Selection(string='State', selection=[('active', 'Active'), ('expired', 'Expired')])
+    state = fields.Selection(string='State', selection=[('active', 'Active'), ('expired', 'Expired')])  # default=active
     document = fields.Binary("Documents")
     description = fields.Text("Description")
     employee_id = fields.Many2one('hr.employee', string='Employee ID')
-    contract_id = fields.Many2one('hr.contract', string='Contract')
-    expiration_date = fields.Date(string='Expiration Date',compute="_compute_expiration_date",store=True)
-
+    contract_id = fields.Char(compute="_compute_contract_id", string='Contract', store=True)
+    expiration_date = fields.Date(string='Expiration Date', compute="_compute_expiration_date", store=True)
 
     def name_get(self):
         rec = []
@@ -52,6 +51,12 @@ class hrExperience(models.Model):
         for record in self:
             if record.state == 'expired':
                 record.expiration_date = fields.Date.today()
+
+    @api.depends('employee_id')
+    def _compute_contract_id(self):
+        for record in self:
+            if record.employee_id.contract_id != False:
+                record.contract_id = record.employee_id.contract_id.name
 
 
 class Experiences(models.Model):
