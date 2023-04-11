@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id='hr_experience_menu_action' model='ir.actions.act_window'>
+        <field name="name">Employee's Experience</field>
+        <field name="res_model">hr.experience</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="hr_experience_model_form" model="ir.ui.view">
+        <field name="name">Form</field>
+        <field name="model">hr.experience</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="name"/>
+                        <field name="state"/>
+                        <field name="education"/>
+                        <field name="college"/>
+                        <field name="document"/>
+                        <field name="contract_id"/>
+                    </group>
+                    <group>
+                        <field name="expiration_date"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="description"/>
+                        <field name="employee_id"  domain="[('contract_id', '!=', False)]" required="1"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_experience_model_tree" model="ir.ui.view">
+        <field name="name">hr.experience.tree</field>
+        <field name="model">hr.experience</field>
+        <field name="arch" type="xml">
+            <tree sample="1" multi_edit="1">
+                <field name="name"/>
+                <field name="education"/>
+                <field name="contract_id"/>
+                <field name="employee_id"/>
+                <field name="create_uid" string="Created By" widget="many2one_avatar_user"/>
+            </tree>
+        </field>
+    </record>
+    <record id="hr_experience_search" model="ir.ui.view">
+        <field name="name">hr.experience.search</field>
+        <field name="model">hr.experience</field>
+        <field name="arch" type="xml">
+            <search string="Experiences">
+                <field name="name"/>
+                                <field name="employee_id"/>
+                <field name="education"/>
+                <field name="college"/>
+
+            </search>
+        </field>
+    </record>
+    <menuitem name="Experiences" id='experiences_root_menu'/>
+    <menuitem name="Experiences" id="experiences_menu" parent='experiences_root_menu'
+              action='hr_experience_menu_action'/>
+    <menuitem
+            id="menu_experience"
+            name="Experiences"
+            parent="hr.menu_hr_root"
+            action="hr_experience_menu_action"
+            sequence="3"/>
+
+</odoo>

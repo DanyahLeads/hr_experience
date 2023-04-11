@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+_user_acl,hr_experience_acl,model_hr_experience,base.group_user,1,1,1,1
+_officer_acl,hr_experience_acl,model_hr_experience,hr.group_hr_user,1,0,0,0
+_manager_acl,hr_experience_acl,model_hr_experience,hr.group_hr_manager,1,1,1,1
+
+
