@@ -14,7 +14,7 @@ class hrExperience(models.Model):
     description = fields.Text("Description")
     employee_id = fields.Many2one('hr.employee', string='Employee ID')
     contract_id = fields.Many2one('hr.contract', string='Contract')
-    expiration_date = fields.Date(string='Expiration Date', store=True)
+    expiration_date = fields.Date(string='Expiration Date',compute="_compute_expiration_date",store=True)
 
 
     def name_get(self):
