@@ -4,7 +4,7 @@
     'description': """
         Hiring the certificated in the right place
     """,
-    'author': "Shoq",
+    'author': "Danyah",
     'version': '0.1',
     'depends': ['base', 'hr','hr_contract'],
     'data': [
