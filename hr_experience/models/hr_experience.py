@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-
+from datetime import date
 
 class hrExperience(models.Model):
     _name = 'hr.experience'
@@ -52,10 +52,23 @@ class hrExperience(models.Model):
 
     def action_activate(self):
         for rec in self:
-                rec.expiration_date = False
-                rec.state = 'active'
+            rec.expiration_date = False
+            rec.state = 'active'
 
 
 class Experiences(models.Model):
     _inherit = 'hr.employee'
     experiences = fields.One2many('hr.experience', 'employee_id')
+
+
+class EmployeeExperienceScheduler(models.Model):
+    _name = 'employee.experience.scheduler'
+
+    def _update_experience_status(self):
+        today = date.today()
+        experiences = self.env['hr.experience'].search([('expiration_date', '<=', today), ('status', '=', 'active')])
+        for experience in experiences:
+            experience.status = 'expired'
+
+    def run_scheduler(self):
+        self._update_experience_status()
