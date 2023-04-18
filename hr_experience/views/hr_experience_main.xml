@@ -6,28 +6,40 @@
         <field name="res_model">hr.experience</field>
         <field name="view_mode">tree,form</field>
     </record>
+    <record id="ir_action_server_action_activate_state" model="ir.actions.server">
+        <field name="name">Activate</field>
+        <field name="model_id" ref="model_hr_experience"/>
+        <field name="binding_model_id" ref="model_hr_experience"/>
+        <field name="state">code</field>
+        <field name="code">
+            record.action_activate()
+        </field>
+    </record>
     <record id="hr_experience_model_form" model="ir.ui.view">
         <field name="name">Form</field>
         <field name="model">hr.experience</field>
         <field name="arch" type="xml">
             <form>
-                <group>
+                <sheet>
                     <group>
-                        <field name="name"/>
-                        <field name="state"/>
-                        <field name="education"/>
-                        <field name="college"/>
-                        <field name="document"/>
-                        <field name="contract_id"/>
+                        <group>
+                            <field name="name"/>
+                            <field name="state"/>
+                            <field name="education"/>
+                            <field name="college"/>
+                            <field name="document"/>
+                            <field name="contract_id" invisible="context.get('hide_from_employee')"/>
+                        </group>
+                        <group>
+                            <field name="expiration_date"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="description"/>
+                            <field name="employee_id" domain="[('contract_id', '!=', False)]" required="1"
+                                   invisible="context.get('hide_from_employee')"/>
+                        </group>
                     </group>
-                    <group>
-                        <field name="expiration_date"/>
-                        <field name="date_from"/>
-                        <field name="date_to"/>
-                        <field name="description"/>
-                        <field name="employee_id"  domain="[('contract_id', '!=', False)]" required="1"/>
-                    </group>
-                </group>
+                </sheet>
             </form>
         </field>
     </record>
@@ -38,6 +50,7 @@
         <field name="arch" type="xml">
             <tree sample="1" multi_edit="1">
                 <field name="name"/>
+                <field name="state"/>
                 <field name="education"/>
                 <field name="contract_id"/>
                 <field name="employee_id"/>
@@ -51,7 +64,7 @@
         <field name="arch" type="xml">
             <search string="Experiences">
                 <field name="name"/>
-                                <field name="employee_id"/>
+                <field name="employee_id"/>
                 <field name="education"/>
                 <field name="college"/>
 
