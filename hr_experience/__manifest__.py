@@ -9,6 +9,7 @@
     'depends': ['base', 'hr','hr_contract'],
     'data': [
         'security/ir.model.access.csv',
+        'data/cron.xml',
         'views/hr_experience_main.xml',
         'views/hr_experience_views.xml',
     ],

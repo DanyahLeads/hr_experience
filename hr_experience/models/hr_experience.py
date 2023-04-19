@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-from datetime import date
+from datetime import datetime
 
 class hrExperience(models.Model):
     _name = 'hr.experience'
@@ -10,7 +10,7 @@ class hrExperience(models.Model):
     education = fields.Boolean("Is Educated")
     college = fields.Char("The College/Company", help="from where you gained this experience")
     state = fields.Selection(string='State', selection=[('active', 'Active'), ('expired', 'Expired')],
-                             readonly='1')  # default=active
+                             readonly='1', default='active')
     document = fields.Binary("Documents")
     description = fields.Text("Description")
     employee_id = fields.Many2one('hr.employee', string='Employee ID')
@@ -28,13 +28,6 @@ class hrExperience(models.Model):
         rec = super(hrExperience, self).default_get(fields)
         rec['employee_id'] = self._context.get('active_id')
         return rec
-
-    @api.onchange('expiration_date')
-    def onchange_state(self):
-        if self.expiration_date <= fields.Date.today():
-            self.state = 'expired'
-        else:
-            self.state = 'active'
 
     @api.onchange('employee_id')
     def onchange_contract_id(self):
@@ -55,20 +48,14 @@ class hrExperience(models.Model):
             rec.expiration_date = False
             rec.state = 'active'
 
+    def action_expired(self):
+        today=datetime.today().date()
+        expired_rec= self.search([('expiration_date','<=',today)])
+        expired_rec.write({'state':'expired'})
+
+
+
 
 class Experiences(models.Model):
     _inherit = 'hr.employee'
     experiences = fields.One2many('hr.experience', 'employee_id')
-
-
-class EmployeeExperienceScheduler(models.Model):
-    _name = 'employee.experience.scheduler'
-
-    def _update_experience_status(self):
-        today = date.today()
-        experiences = self.env['hr.experience'].search([('expiration_date', '<=', today), ('status', '=', 'active')])
-        for experience in experiences:
-            experience.status = 'expired'
-
-    def run_scheduler(self):
-        self._update_experience_status()

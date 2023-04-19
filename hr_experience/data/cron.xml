@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <data>
+    <record id="ir_cron_automated_set_expired" model="ir.cron">
+            <field name="name">Employee experience's : update state</field>
+            <field name="model_id" ref="model_hr_experience"/>
+            <field name="type">ir.cron</field>
+            <field name="state">code</field>
+            <field name="code">model.action_expired()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+        </record>
+    </data>
+</odoo>
