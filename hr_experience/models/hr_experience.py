@@ -50,7 +50,7 @@ class hrExperience(models.Model):
 
     def action_expired(self):
         today=datetime.today().date()
-        expired_rec= self.search([('expiration_date','<=',today)])
+        expired_rec= self.search([('expiration_date','<=',today),('state','=','active')])
         expired_rec.write({'state':'expired'})
 
 
