@@ -10,8 +10,10 @@
     'data': [
         'security/ir.model.access.csv',
         'data/cron.xml',
-        'views/hr_experience_main.xml',
+        'wizard/add_experince_view.xml',
         'views/hr_experience_views.xml',
+        'views/hr_experience_main.xml',
+
     ],
 
 }

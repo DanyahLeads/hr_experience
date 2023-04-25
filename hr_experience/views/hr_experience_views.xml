@@ -10,7 +10,7 @@
             <xpath expr="//notebook/page[@name='public']" position="after">
                 <page name="experience" string="Experience">
                     <tree sample="1" multi_edit="1">
-                        <field name="experiences"  multi_edit="1" context="{'hide_from_employee':1}"/>
+                        <field name="experiences"  multi_edit="1" context="{'hide_from_employee':1}" readonly="1"/>
                         <field name="create_uid" string="Created By" widget="many2one_avatar_user"/>
                     </tree>
                 </page>

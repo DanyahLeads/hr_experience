@@ -10,11 +10,26 @@
         <field name="name">Activate</field>
         <field name="model_id" ref="model_hr_experience"/>
         <field name="binding_model_id" ref="model_hr_experience"/>
-        <field name="state">code</field>
+        <field name="state">object_write</field>
         <field name="code">
             record.action_activate()
         </field>
     </record>
+
+        <record id="ir_action_server_action_create_experience" model="ir.actions.server">
+        <field name="name">Add Experience</field>
+        <field name="model_id" ref="model_add_experience"/>
+        <field name="binding_model_id" ref="hr.model_hr_employee"/>
+        <field name="binding_view_types">form</field>
+        <field name="state">code</field>
+        <field name="code">
+action_values = env.ref('hr_experience.action_add_experience').read()[0]
+action_values.update({'context': env.context})
+action = action_values
+        </field>
+    </record>
+
+
     <record id="hr_experience_model_form" model="ir.ui.view">
         <field name="name">Form</field>
         <field name="model">hr.experience</field>
@@ -71,14 +86,20 @@
             </search>
         </field>
     </record>
-    <menuitem name="Experiences" id='experiences_root_menu'/>
-    <menuitem name="Experiences" id="experiences_menu" parent='experiences_root_menu'
-              action='hr_experience_menu_action'/>
+
+    <menuitem
+            name="Experiences"
+            id="experiences_menu"
+            action='hr_experience_menu_action'/>
+
     <menuitem
             id="menu_experience"
             name="Experiences"
             parent="hr.menu_hr_root"
+            sequence="3"
             action="hr_experience_menu_action"
-            sequence="3"/>
+    />
+
+
 
 </odoo>

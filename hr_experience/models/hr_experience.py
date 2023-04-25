@@ -1,6 +1,7 @@
 from odoo import models, fields, api
 from datetime import datetime
 
+
 class hrExperience(models.Model):
     _name = 'hr.experience'
     _description = "Hiring the Heroes!"
@@ -33,15 +34,16 @@ class hrExperience(models.Model):
     def onchange_contract_id(self):
         self.contract_id = self.employee_id.contract_id.name
 
-    @api.constrains('date_from', 'date_to', 'expiration_date', 'state')
-    def _check_date_from(self):
-        for record in self:
-            if record.date_from > record.date_to or record.date_from > fields.Date.today():
-                raise models.ValidationError('Date from must be in the past and must not be after Date to!')
-            elif record.date_from == fields.Date.today() or record.date_from == record.date_to:
-                raise models.ValidationError('Date from must be in the past!')
-            elif record.date_to > fields.Date.today() or record.date_to == fields.Date.today():
-                raise models.ValidationError('Date to must be in the past!')
+    #
+    # @api.constrains('date_from', 'date_to', 'expiration_date', 'state')
+    # def _check_date_from(self):
+    #     for record in self:
+    #         if record.date_from > record.date_to or record.date_from > fields.Date.today():
+    #             raise models.ValidationError('Date from must be in the past and must not be after Date to!')
+    #         elif record.date_from == fields.Date.today() or record.date_from == record.date_to:
+    #             raise models.ValidationError('Date from must be in the past!')
+    #         elif record.date_to > fields.Date.today() or record.date_to == fields.Date.today():
+    #             raise models.ValidationError('Date to must be in the past!')
 
     def action_activate(self):
         for rec in self:
@@ -49,13 +51,32 @@ class hrExperience(models.Model):
             rec.state = 'active'
 
     def action_expired(self):
-        today=datetime.today().date()
-        expired_rec= self.search([('expiration_date','<=',today),('state','=','active')])
-        expired_rec.write({'state':'expired'})
-
-
+        today = datetime.today().date()
+        expired_rec = self.search([('expiration_date', '<=', today), ('state', '=', 'active')])
+        expired_rec.write({'state': 'expired'})
 
 
 class Experiences(models.Model):
     _inherit = 'hr.employee'
     experiences = fields.One2many('hr.experience', 'employee_id')
+
+    # def action_create_experience(self):
+    #     values = {
+    #         'name': self.name,
+    #         'date_to': self.date_to,
+    #         'date_from': self.date_from,
+    #         'expiration_date': self.expiration_date
+    #     }
+    #     self.env['hr.experience'].create(values)
+
+
+""" 
+for rainbowman effect inside botton action
+  return {
+                'effect': {
+                    'fadeout': 'fast',
+                    'message': 'Activate Successfully',
+                    'type': 'rainbow_man',
+                }
+            }
+ """
