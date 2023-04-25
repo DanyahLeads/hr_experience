@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="add_experience_form" model="ir.ui.view">
+        <field name="name">add.experience.form</field>
+        <field name="model">add.experience</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="name"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="expiration_date"/>
+                </group>
+                <footer>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    <button name="auto_configuration" type="object" string="Add" class="btn-primary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_add_experience">
+        <field name="name">add.experience.form</field>
+        <field name="res_model">add.experience</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="add_experience_form"/>
+        <field name="target">new</field>
+    </record>
+</odoo>
+
